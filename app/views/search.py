@@ -1,6 +1,5 @@
-from flask import Blueprint
-
-# from flask import request
+from flask import Blueprint, render_template
+from flask import request
 import asyncio
 import requests
 
@@ -26,13 +25,16 @@ async def async_search_book(title):
     return None
 
 
-# @search.route("/search", methods=["GET", "POST"])
-@search.route("/search/<title>")
-async def search_book(title: str = None):
+# @search.route("/search/<title>", methods=["GET"])
+@search.route("/search", methods=["GET", "POST"])
+async def search_book():
+    response = None
+    if request.method == "POST":
+        title = request.form["title"]
 
-    if title:
-        response = await async_search_book(title)
-        if response:
-            return "<br>".join(response)
+        if title:
+            response = await async_search_book(title)
+    if not response:
+        response = ""
 
-    return "No matching books found"
+    return render_template("search.html", titles=response)
