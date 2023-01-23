@@ -1,16 +1,30 @@
 {% extends "base.html" %}
 
 {% block head %}
-
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='js/live_search.js') }}"></script>
 {% endblock %}
 
 {% block body %}
-<h1>Search Books</h1>
-<form action="" method="post">
-    <input type="text" name="title" placeholder="Search a book">
-    <button type="submit"><i>Search</i></button>
-</form>
-{% for title in titles %}
-<li>{{ title }}</li>
-{% endfor %}
+<div class="container search-table">
+    <p>
+    <h2 align="center">Search Google Book API Live</h2>
+    </p>
+    <div class="search-box">
+        <div class="row">
+            <div class="col-md-3">
+                <h5>Search Book</h5>
+            </div>
+            <div class="col-md-9">
+                <input type="text" name="search_text" id="search_text" class="form-control"
+                    placeholder="Search a book...">
+                <!-- <input type="number" name="search_number" id="search_number" min="10" max="100" value="20"> -->
+            </div>
+        </div>
+    </div>
+    <div id="result"></div>
+</div>
+
 {% endblock %}

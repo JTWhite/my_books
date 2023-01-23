@@ -1,0 +1,22 @@
+<h3>{{numrows}} Records Found</h3>
+<table class="table table-striped custab">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Authors</th>
+            <th>Number of Pages</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in employee %}
+        <tr>
+            <td>{{row.title}}</td>
+            <td>
+                {% for author in row.authors %}
+                {{ author }}{{ ", " if not loop.last else "" }}
+                {% endfor %}
+            </td>
+            <td>{{row.pageCount}}</td>
+
+        </tr>
+        {% endfor %}

@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template
-from flask import request
+from flask import request, jsonify
 import asyncio
 import requests
 
@@ -13,28 +13,39 @@ search = Blueprint(
 
 async def async_search_book(title):
 
-    query = f"https://www.googleapis.com/books/v1/volumes?q={title}"
+    query = (
+        f"https://www.googleapis.com/books/v1/volumes?q={title}&maxResults=20"
+    )
     response = requests.get(query)
     response = response.json()
 
     if response:
         books = [book["volumeInfo"] for book in response["items"]]
-        books = [book["title"] for book in books if "title" in book]
+        # books = [book["title"] for book in books if "title" in book]
         return books
 
     return None
 
 
-# @search.route("/search/<title>", methods=["GET"])
-@search.route("/search", methods=["GET", "POST"])
+@search.route("/search")
+def index():
+    return render_template("search.html")
+
+
+@search.route("/search/json", methods=["GET", "POST"])
 async def search_book():
-    response = None
+
     if request.method == "POST":
-        title = request.form["title"]
+        book = request.form["query"]
 
-        if title:
-            response = await async_search_book(title)
-    if not response:
-        response = ""
+        if book:
+            response = await async_search_book(book)
+            numrows = len(response)
 
-    return render_template("search.html", titles=response)
+    return jsonify(
+        {
+            "htmlresponse": render_template(
+                "search_response.html", employee=response, numrows=numrows
+            )
+        }
+    )

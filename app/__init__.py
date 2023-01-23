@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from .views.home import home
 from .views.admin import admin
 from .views.search import search
+
 from .models import GetBook
 
 
@@ -18,5 +19,6 @@ api = Api(app)
 app.register_blueprint(home)
 app.register_blueprint(admin)
 app.register_blueprint(search)
+
 
 api.add_resource(GetBook, "/book/<string:title>")
