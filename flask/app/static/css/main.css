@@ -2,8 +2,6 @@ body {
     /* margin: 0; */
     font-family: sans-serif;
     color: blue;
-
-
 }
 
 .search-table {
@@ -12,7 +10,7 @@ body {
 }
 
 .search-box {
-    background: #c1c1c1;
+    background: #ac3737;
     border: 1px solid #ababab;
     padding: 3%;
 }

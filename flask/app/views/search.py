@@ -1,6 +1,6 @@
+from typing import Dict, List, Any
 from flask import Blueprint, render_template
 from flask import request, jsonify
-import asyncio
 import requests
 
 search = Blueprint(
@@ -11,7 +11,7 @@ search = Blueprint(
 )
 
 
-async def async_search_book(title):
+async def async_search_book(title: str) -> List[Dict[str, Any]]:
 
     query = (
         f"https://www.googleapis.com/books/v1/volumes?q={title}&maxResults=20"
@@ -21,9 +21,7 @@ async def async_search_book(title):
 
     if response:
         books = [book["volumeInfo"] for book in response["items"]]
-        # books = [book["title"] for book in books if "title" in book]
         return books
-
     return None
 
 
@@ -33,7 +31,7 @@ def index():
 
 
 @search.route("/search/json", methods=["GET", "POST"])
-async def search_book():
+async def search_book() -> Dict[str:Any]:
 
     if request.method == "POST":
         book = request.form["query"]
